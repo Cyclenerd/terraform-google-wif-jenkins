@@ -8,7 +8,7 @@ With this example the following steps are executed and configured:
 
 1. Create Workload Identity Pool Provider for Jenkins
 1. Create new service account for Jenkins
-1. Allow login via Workload Identity Provider and limit login only from the Jenkins repository (project path)
+1. Allow login via Workload Identity Provider and limit login only from specific Jenkins build with URL in subject
 1. Output the Workload Identity Pool Provider resource name for Jenkins configuration
 
 <!-- BEGIN_TF_DOCS -->

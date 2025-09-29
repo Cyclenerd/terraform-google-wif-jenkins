@@ -1,0 +1,35 @@
+name: "CI"
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: CI Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      # https://github.com/hashicorp/setup-terraform
+      - uses: hashicorp/setup-terraform@v3
+      - name: Init
+        run: terraform init
+      - name: Validate
+        run: terraform validate
+      - name: Formatting
+        run: terraform fmt -recursive -check -diff -no-color
+
+      # https://github.com/marketplace/actions/setup-tflint
+      - name: Lint
+        uses: terraform-linters/setup-tflint@v5
+        with:
+          tflint_version: latest
+      - id: tflint
+        run: tflint --recursive --format compact
+
+      # https://github.com/marketplace/actions/tfsec-action
+      - name: tfsec
+        uses: aquasecurity/tfsec-action@v1.0.3

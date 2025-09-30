@@ -43,7 +43,7 @@ variable "pool_id" {
 variable "pool_display_name" {
   type        = string
   description = "Workload Identity Pool display name"
-  default     = "jenkins"
+  default     = "Jenkins"
 }
 
 variable "pool_description" {

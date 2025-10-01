@@ -12,6 +12,8 @@ Service account keys are a security risk if compromised.
 Avoid service account keys and instead use the [Workload Identity Federation](https://github.com/Cyclenerd/google-workload-identity-federation#readme).
 For more information about Workload Identity Federation and how to best authenticate service accounts on Google Cloud, please see my GitHub repo [Cyclenerd/google-workload-identity-federation](https://github.com/Cyclenerd/google-workload-identity-federation#readme).
 
+You are also welcome to take a look at the [comprehensive blueprint](https://github.com/Cyclenerd/gcp-jenkins) which describes in more detail how to securely connect Jenkins to Google Cloud Platform (GCP) using Workload Identity Federation.
+
 > There are also a ready-to-use Terraform modules
 > for [GitHub](https://github.com/Cyclenerd/terraform-google-wif-github#readme),
 > [GitLab](https://github.com/Cyclenerd/terraform-google-wif-gitlab#readme)
@@ -25,7 +27,7 @@ Create Workload Identity Pool and Provider:
 # Create Workload Identity Pool Provider for Jenkins
 module "jenkins-wif" {
   source            = "Cyclenerd/wif-jenkins/google"
-  version           = "~> 1.0.0"
+  version           = "~> 1.0"
   project_id        = var.project_id
   issuer_uri        = "https://jenkins.localhost"
   allowed_audiences = ["https://jenkins.localhost"]
@@ -52,7 +54,7 @@ data "google_service_account" "jenkins" {
 # Allow service account to login via WIF and only from Jenkins build gcp-test
 module "jenkins-service-account" {
   source     = "Cyclenerd/wif-service-account/google"
-  version    = ">= 1.1.0"
+  version    = "~> 1.1"
   project_id = var.project_id
   pool_name  = module.jenkins-wif.pool_name
   account_id = data.google_service_account.jenkins.account_id
@@ -123,7 +125,7 @@ Default attribute mapping:
 | <a name="input_jwks_json_file"></a> [jwks\_json\_file](#input\_jwks\_json\_file) | (Optional) OIDC JSON Web Key (JWK) file. If not set, then we use the `jwks_json` is used | `string` | `null` | no |
 | <a name="input_pool_description"></a> [pool\_description](#input\_pool\_description) | Workload Identity Pool description | `string` | `"Workload Identity Pool for Jenkins (Terraform managed)"` | no |
 | <a name="input_pool_disabled"></a> [pool\_disabled](#input\_pool\_disabled) | Workload Identity Pool disabled | `bool` | `false` | no |
-| <a name="input_pool_display_name"></a> [pool\_display\_name](#input\_pool\_display\_name) | Workload Identity Pool display name | `string` | `"jenkins"` | no |
+| <a name="input_pool_display_name"></a> [pool\_display\_name](#input\_pool\_display\_name) | Workload Identity Pool display name | `string` | `"Jenkins"` | no |
 | <a name="input_pool_id"></a> [pool\_id](#input\_pool\_id) | Workload Identity Pool ID | `string` | `"jenkins"` | no |
 | <a name="input_project_id"></a> [project\_id](#input\_project\_id) | The ID of the project | `string` | n/a | yes |
 | <a name="input_provider_description"></a> [provider\_description](#input\_provider\_description) | Workload Identity Pool Provider description | `string` | `"Workload Identity Pool Provider for Jenkins (Terraform managed)"` | no |

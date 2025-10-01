@@ -17,7 +17,7 @@ With this example the following steps are executed and configured:
 # Create Workload Identity Pool Provider for Jenkins
 module "jenkins-wif" {
   source            = "Cyclenerd/wif-jenkins/google"
-  version           = "~> 1.0.0"
+  version           = "~> 1.0"
   project_id        = var.project_id
   issuer_uri        = "https://jenkins.localhost"
   allowed_audiences = ["https://jenkins.localhost"]
@@ -36,7 +36,7 @@ resource "google_service_account" "jenkins" {
 # Allow service account to login via WIF and only from specific Jenkins build with URL in subject
 module "jenkins-service-account" {
   source     = "Cyclenerd/wif-service-account/google"
-  version    = ">= 1.1.0"
+  version    = "~> 1.1"
   project_id = var.project_id
   pool_name  = module.jenkins-wif.pool_name
   account_id = google_service_account.jenkins.account_id
